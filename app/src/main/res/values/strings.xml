@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">NfcHceNdefSender</string>
+    <string name="servicedesc">NFC HCE NDEF Service</string>
+    <string name="aiddescription">NFC HCE NDEF NFC AID</string>
+    <string name="header">Emulate NFC Forum Type-4 tag with a NDEF message.\nTo read the message you need a separate reader app running on a second device.</string>
+    <string name="description">This example emulates a type-4 tag with an NDEF record (RTD_TEXT). It uses an aid-filter F0394148148100 for the APDU SELECT command.</string>
+    <string name="set_ndef_button">Set NDEF Text</string>
+</resources>
