@@ -1,4 +1,4 @@
-package de.androidcrypto.nfchcendefsender;
+package de.androidcrypto.nfchcendefrealsender;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +28,7 @@ public class MyHostApduService extends HostApduService {
     // We use the default AID from the HCE Android documentation
     // https://developer.android.com/guide/topics/connectivity/nfc/hce.html
     //
-    // Ala... <aid-filter android:name="F0394148148100" />
+    // Ala... <aid-filter android:name="D2760000850101" />
     //
     private static final byte[] APDU_SELECT = {
             (byte)0x00, // CLA	- Class - Class of instruction
@@ -36,7 +36,7 @@ public class MyHostApduService extends HostApduService {
             (byte)0x04, // P1	- Parameter 1 - Instruction parameter 1
             (byte)0x00, // P2	- Parameter 2 - Instruction parameter 2
             (byte)0x07, // Lc field	- Number of bytes present in the data field of the command
-            (byte)0xF0, (byte)0x39, (byte)0x41, (byte)0x48, (byte)0x14, (byte)0x81, (byte)0x00, // NDEF Tag Application name
+            (byte)0xD2, (byte)0x76, (byte)0x00, (byte)0x00, (byte)0x85, (byte)0x01, (byte)0x01, // NDEF Tag Application name
             (byte)0x00  // Le field	- Maximum number of bytes expected in the data field of the response to the command
     };
 
@@ -119,7 +119,7 @@ public class MyHostApduService extends HostApduService {
 
     //private byte[] NDEF_URI_BYTES = NDEF_URI.toByteArray();
     //private byte[] NDEF_URI_BYTES = NDEF_URI.toByteArray();
-    private byte[] NDEF_URI_BYTES = getNdefMessage("Hello world!");
+    private byte[] NDEF_URI_BYTES = getNdefMessage("Hello X world!");
     private byte[] NDEF_URI_LEN = BigInteger.valueOf(NDEF_URI_BYTES.length).toByteArray();
 
     private byte[] getNdefMessage(String ndefData) {
@@ -159,6 +159,7 @@ public class MyHostApduService extends HostApduService {
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
             Log.i(TAG, "NDEF message: " + new String(NDEF_URI_BYTES));
+            Log.i(TAG, "NDEF message length: " + NDEF_URI_BYTES.length);
         } else {
             Log.i(TAG, "NDEF text is empty");
             return START_REDELIVER_INTENT;
@@ -166,6 +167,9 @@ public class MyHostApduService extends HostApduService {
 
         //Log.i(TAG, "onStartCommand() | NDEF" + NDEF_URI.toString());
         Log.i(TAG, "onStartCommand() | NDEF" + new String(NDEF_URI_BYTES));
+
+        // set READ_CAPABILITY_CONTAINER_CHECK for checking all data
+        READ_CAPABILITY_CONTAINER_CHECK = false;
 
         //return 0;
         return START_STICKY;
@@ -184,7 +188,7 @@ public class MyHostApduService extends HostApduService {
         // First command: NDEF Tag Application select (Section 5.5.2 in NFC Forum spec)
         //
         if (Utils.isEqual(APDU_SELECT, commandApdu)) {
-            Log.i(TAG, "APDU_SELECT triggered. Our Response: " + Utils.bytesToHex(A_OKAY));
+            Log.i(TAG, "Step 1 APDU_SELECT triggered. Our Response: " + Utils.bytesToHex(A_OKAY));
             return A_OKAY;
         }
 
@@ -192,7 +196,7 @@ public class MyHostApduService extends HostApduService {
         // Second command: Capability Container select (Section 5.5.3 in NFC Forum spec)
         //
         if (Utils.isEqual(CAPABILITY_CONTAINER, commandApdu)) {
-            Log.i(TAG, "CAPABILITY_CONTAINER triggered. Our Response: " + Utils.bytesToHex(A_OKAY));
+            Log.i(TAG, "Step 2 CAPABILITY_CONTAINER triggered. Our Response: " + Utils.bytesToHex(A_OKAY));
             return A_OKAY;
         }
 
@@ -200,7 +204,7 @@ public class MyHostApduService extends HostApduService {
         // Third command: ReadBinary data from CC file (Section 5.5.4 in NFC Forum spec)
         //
         if (Utils.isEqual(READ_CAPABILITY_CONTAINER, commandApdu) && !READ_CAPABILITY_CONTAINER_CHECK) {
-            Log.i(TAG, "READ_CAPABILITY_CONTAINER triggered. Our Response: " + Utils.bytesToHex(READ_CAPABILITY_CONTAINER_RESPONSE));
+            Log.i(TAG, "Step 3 READ_CAPABILITY_CONTAINER triggered. Our Response: " + Utils.bytesToHex(READ_CAPABILITY_CONTAINER_RESPONSE));
             READ_CAPABILITY_CONTAINER_CHECK = true;
             return READ_CAPABILITY_CONTAINER_RESPONSE;
         }
@@ -209,7 +213,7 @@ public class MyHostApduService extends HostApduService {
         // Fourth command: NDEF Select command (Section 5.5.5 in NFC Forum spec)
         //
         if (Utils.isEqual(NDEF_SELECT, commandApdu)) {
-            Log.i(TAG, "NDEF_SELECT triggered. Our Response: " + Utils.bytesToHex(A_OKAY));
+            Log.i(TAG, "Step 4 NDEF_SELECT triggered. Our Response: " + Utils.bytesToHex(A_OKAY));
             return A_OKAY;
         }
 
@@ -230,7 +234,7 @@ public class MyHostApduService extends HostApduService {
             System.arraycopy(A_OKAY, 0, response, start.length + NDEF_URI_LEN.length, A_OKAY.length);
 
             Log.i(TAG, response.toString());
-            Log.i(TAG, "NDEF_READ_BINARY_NLEN triggered. Our Response: " + Utils.bytesToHex(response));
+            Log.i(TAG, "Step 5 NDEF_READ_BINARY_NLEN triggered. Our Response: " + Utils.bytesToHex(response));
 
             return response;
         }
@@ -239,7 +243,7 @@ public class MyHostApduService extends HostApduService {
         // Sixth command: ReadBinary, get NDEF data
         //
         if (Utils.isEqual(NDEF_READ_BINARY_GET_NDEF, commandApdu)) {
-            Log.i(TAG, "processCommandApdu() | NDEF_READ_BINARY_GET_NDEF triggered");
+            Log.i(TAG, "Step 6 processCommandApdu() | NDEF_READ_BINARY_GET_NDEF triggered");
 
             byte[] start = {
                     (byte)0x00
@@ -255,10 +259,10 @@ public class MyHostApduService extends HostApduService {
 
             //Log.i(TAG, NDEF_URI.toString());
             Log.i(TAG, new String(NDEF_URI_BYTES));
-            Log.i(TAG, "NDEF_READ_BINARY_GET_NDEF triggered. Our Response: " + Utils.bytesToHex(response));
-
+            Log.i(TAG, "Step 6 NDEF_READ_BINARY_GET_NDEF triggered. Our Response: " + Utils.bytesToHex(response));
+            Log.i(TAG, "Step 6 NDEF_READ_BINARY_GET_NDEF response length: " + response.length + " data: " + new String(response));
             Context context = getApplicationContext();
-            CharSequence text = "NDEF text has been sent to the reader!";
+            CharSequence text = "NDEF text has been sent to the reader, length is " + response.length;
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
             toast.setGravity(Gravity.CENTER, 0, 0);

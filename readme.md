@@ -4,6 +4,8 @@ This app emulates a NFC tag with a NDEF message.
 
 For reading the emulated tag you need a second application: NfcHceNdefReader
 
+This app uses the AID D2760000850101 - this is the official NFC tag 4 class NDEF AID
+
 AndroidManifest.xml:
 ```plaintext
     <uses-permission android:name="android.permission.NFC" />

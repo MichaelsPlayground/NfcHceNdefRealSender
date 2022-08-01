@@ -1,4 +1,4 @@
-package de.androidcrypto.nfchcendefsender;
+package de.androidcrypto.nfchcendefrealsender;
 
 import android.content.Context;
 

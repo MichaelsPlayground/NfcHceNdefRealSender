@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="de.androidcrypto.nfchcendefsender">
+    package="de.androidcrypto.nfchcendefrealsender">
     <uses-permission android:name="android.permission.NFC" />
     <uses-feature android:name="android.hardware.nfc.hce" android:required="true" />
     <application
@@ -12,10 +12,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NfcHceNdefSender"
+        android:theme="@style/Theme.NfcHceNdefRealSender"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="de.androidcrypto.nfchcendefrealsender.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".MyHostApduService" android:exported="true"
+        <service android:name="de.androidcrypto.nfchcendefrealsender.MyHostApduService" android:exported="true"
             android:permission="android.permission.BIND_NFC_SERVICE">
             <intent-filter>
                 <action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE"/>
