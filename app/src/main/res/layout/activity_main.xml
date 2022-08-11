@@ -6,76 +6,78 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:layout_height="wrap_content">
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/header"
             android:id="@+id/Header"
-
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="20dp" />
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/description"
+            android:layout_marginBottom="20dp"
+            android:text="@string/header"
+
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
             android:id="@+id/description"
-            android:layout_below="@+id/Header"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="20dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/description" />
 
         <EditText
             android:id="@+id/ndef_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/description"
-            android:layout_alignParentStart="true"
-            android:hint="Enter plain text for NDEF"
+            android:hint="@string/plainText"
             android:minHeight="48dp" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/set_ndef_button"
             android:id="@+id/set_ndef_button"
-            android:layout_below="@+id/ndef_text"
-            android:layout_alignEnd="@+id/ndef_text" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/set_ndef100_button"
-            android:id="@+id/set_ndef100_button"
-            android:layout_below="@+id/set_ndef_button"
-            android:layout_alignEnd="@+id/set_ndef_button" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/set_ndef500_button"
-            android:id="@+id/set_ndef500_button"
-            android:layout_below="@+id/set_ndef100_button"
-            android:layout_alignEnd="@+id/set_ndef100_button" />
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="this is the NDEF message"
-            android:id="@+id/ndefBytes"
-            android:layout_below="@+id/set_ndef500_button"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="20dp" />
+            android:layout_margin="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/set_ndef_button" />
 
-    </RelativeLayout>
+        <Button
+            android:id="@+id/set_ndef100_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/set_ndef100_button" />
+
+        <Button
+            android:id="@+id/set_ndef500_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/set_ndef500_button" />
+
+        <TextView
+            android:id="@+id/ndefBytes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/nfc_result" />
+
+    </LinearLayout>
 
 </RelativeLayout>
